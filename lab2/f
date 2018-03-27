@@ -1,0 +1,69 @@
+Help on module cvl_labs.lab2 in cvl_labs:
+
+NNAAMMEE
+    cvl_labs.lab2
+
+FFUUNNCCTTIIOONNSS
+    ggooppiimmaaggee(V, scale=1, ax=None)
+        Display color representation of motion field
+        
+        Parameters
+        ----------------
+        V : array of shape (R, C, 2), or complex array of shape (R, C)
+            The motion field in (x, y) order
+        
+        scale: float
+            Scale the magnitude
+            
+        ax : Axes
+            Axes object to plot to, or None to create a new figure        
+        
+        Original MATLAB implementation by Gunnar Farnebäck, CVL, Linköping University
+        Python re-implementation by Hannes Ovrén, CVL, Linköping University, 2018
+    
+    iimmaaggee__ggrriidd(images, nrows=1, ncols=None, separate_colorbars=False, share_all=False, imshow_opts={})
+        Plot a grid of images from list or dict
+        
+        Examples:
+            
+            image_grid([im1, im2, im3], nrows=2)
+            
+            image_grid({'A': image_a, 'B': image_b})
+        
+        Parameters
+        --------------
+        images : list or dict
+                Images to plot. If a dict, the format is {'name1': im1, 'name2': im2}
+        
+        nrows : int
+                Number of grid rows
+        
+        ncols : int
+                Number of grid columns. If None, a suitable number is calculated.            
+        
+        separate_colorbars : bool
+                If True, each image gets its own colorbar and colors are NOT normalized.
+                If False, a shared colorbar is created, and the image colors are normalized.
+                
+        share_all: bool
+                If true, the subaxes will share coordinate system, and zoom/move together.
+                
+        imshow_opts: dict
+                Keyword arguments passed to plt.imshow(). e.g {'cmap': 'gray', 'interpolation': 'nearest'}
+                
+        Returns
+        ---------------
+        axes : list of Axes objects
+            The Axes objects
+    
+    llooaadd__iimmaaggee__ggrraayyssccaallee(path)
+        Load a grayscale image by path
+
+DDAATTAA
+    GGOOPPTTAABBLLEE = array([[ 0.28125   ,  0.90234375,  0.140625  ],
+    ...
+           ...
+
+FFIILLEE
+    /site/edu/bb/ComputerVision/python/cvl_labs/lab2.py
+

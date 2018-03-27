@@ -1,0 +1,22 @@
+3. Exempel på hur man anropar interpolationsfunktionen
+RectBivariateSpline (från Hannes):
+
+RectBivariateSpline är en klass som beskriver ett interpolationsobjekt.
+Vi kan se det objektet som en "kontinuerlig" bild som vi kan addressera
+ med annat än heltalsvärden.
+Nedan följer ett exempel som plockar ut en patch i bilden på
+icke-heltalskoordinater:
+
+rows, cols = img.shape
+k = 1  # Spline order. k=1 -> Linear interpolation
+img_interpolator = RectBivariateSpline(np.arange(rows), np.arange(cols), img, kx=k, ky=k) # Note: row, col order!
+
+# Define a patch to interpolate
+x, y = (117.3, 43.6)     # top left corner
+w, h = (50, 40)          # width and height
+
+gx = x + np.arange(w)
+gy = y + np.arange(h)
+patch = img_interpolator(gy, gx, grid=True)  # Note: row, col order!
+
+Notera följande:
