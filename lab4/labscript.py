@@ -1,6 +1,7 @@
 import cvl_labs.lab4 as lab
 import cv2
 from scipy.signal import convolve2d as conv2
+from scipy import ndimage
 import matplotlib.pyplot as plt
 import numpy as np
 import matplotlib.image as mpimg
@@ -72,6 +73,13 @@ def estimateD(T,k):
     D = V@(W[:,:,:,None]*np.transpose(V,(0,1,3,2)))
     return np.transpose(np.array([D[:,:,0,0],D[:,:,0,1],D[:,:,1,1]]),(1,2,0))
 
+def createNoise(Im, goalSNR):
+    imVar = ndimage.variance(Im)
+    noiseSTD = np.sqrt(imVar/(10**(goalSNR/10)))
+    noise = np.random.normal(0, noiseSTD, (Im.shape[0],Im.shape[1]))
+    outIm = Im + noise
+    return outIm
+
 size = 1000
 
 # wgn = np.random.randn(size,size).astype('float64')
@@ -97,9 +105,12 @@ winH = 1000
 # http://liu.diva-portal.org/smash/get/diva2:265740/FULLTEXT01.pdf
 
 L = lab.get_cameraman()/255.0
-noise = np.random.randn(L.shape[0],L.shape[1])*0.05
+#noise = np.random.randn(L.shape[0],L.shape[1])*0.05
 # noise = (0.5-np.random.rand(L.shape[0],L.shape[1]))*0.2
-L += noise
+#L += noise
+
+L = createNoise(L,5)
+
 # L = mpimg.imread('cornertest.png')[:,:,0]
 cv2.namedWindow('D',cv2.WINDOW_NORMAL) #cv2 suger dase
 cv2.resizeWindow('D', 600, 600)
@@ -108,7 +119,8 @@ cv2.resizeWindow('L', 600, 600)
 cv2.namedWindow('H',cv2.WINDOW_NORMAL)
 cv2.resizeWindow('H', 600, 600)
 Lorig = np.array(L)
-for i in range(1000):
+for i in range(80):
+    print ("itteration number: {itNr}".format(itNr=i))
     dx,dy = imGrad(L)
     T = estimateT(dx,dy,ksize=ksizeT,sigma=sigmaT,mode='gauss')
     H = imHessian(L)
